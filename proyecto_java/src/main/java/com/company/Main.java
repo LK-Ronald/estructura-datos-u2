@@ -42,5 +42,8 @@ public class Main {
 
         System.out.println("Show the index of the number minor of the array -> " + ArraySearches.argMin(occurrences));
 
+        System.out.println("Insert number or return index if exist the number of the array -> "
+                + ArraySearches.binarySearchOrInsertionPoint(occurrences, 16));
+
     }
 }

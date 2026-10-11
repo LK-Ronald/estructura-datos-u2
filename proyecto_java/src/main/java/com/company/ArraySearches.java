@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class ArraySearches {
@@ -206,4 +207,22 @@ public class ArraySearches {
         }
         return minInd;
     }
+
+    public static int binarySearchOrInsertionPoint(int[] sorted, int t) {
+        if (sorted == null || sorted.length == 0)
+            return -1;
+        int lo = 0, hi = sorted.length - 1;
+        while (lo <= hi) {
+            int mid = lo + ((hi - lo) >>> 1);
+            if (sorted[mid] == t)
+                return mid;
+            if (sorted[mid] < t)
+                lo = mid + 1;
+            else
+                hi = mid - 1;
+        }
+        int puntoInsercion = lo;
+        return puntoInsercion + 1;
+    }
+
 }
