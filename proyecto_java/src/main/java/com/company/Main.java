@@ -37,7 +37,7 @@ public class Main {
 
         int[] occurrences = new int[] { 1, 2, 5, 3, 4, 5 };
         System.out
-                .println("Delete occurrences of number 5 -> " + ArraySearches.deletePrimaryOccurrence(occurrences, 5));
+                .println("Delete occurrences of number 5 -> " + Arrays.toString(ArraySearches.deletePrimaryOccurrence(occurrences, 5)));
 
     }
 }
