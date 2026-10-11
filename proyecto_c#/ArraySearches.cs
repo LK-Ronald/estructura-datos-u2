@@ -1,0 +1,308 @@
+namespace proyecto_c;
+
+public class ArraySearches
+{
+    private ArraySearches()
+    {
+    }
+
+    public static int LinearSearch(int[]? array, int target)
+    {
+        if (array == null || array.Length < 0)
+            return -1;
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (array[i] == target)
+                return i;
+        }
+
+        return -1;
+    }
+
+    public static int linearSearch(int[]? array, int target) => LinearSearch(array, target);
+
+    // Todas las ocurrencias
+    public static int[] LinearSearchAll(int[]? a, int target)
+    {
+        if (a == null || a.Length == 0)
+            return Array.Empty<int>();
+
+        int count = 0;
+
+        foreach (int v in a)
+        {
+            if (v == target)
+                count++;
+        }
+
+        int[] idx = new int[count];
+
+        int k = 0;
+
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (a[i] == target)
+                idx[k++] = i;
+        }
+        return idx;
+    }
+
+    public static int[] linearSearchAll(int[]? a, int target) => LinearSearchAll(a, target);
+
+    // Última ocurrencia
+    public static int LinearSearchLast(int[]? a, int target)
+    {
+        if (a == null || a.Length == 0)
+            return -1;
+        for (int i = a.Length - 1; i >= 0; i--)
+        {
+            if (a[i] == target)
+                return i;
+        }
+        return -1;
+    }
+
+    public static int linearSearchLast(int[]? a, int target) => LinearSearchLast(a, target);
+
+    // Busqueda por centinela
+    public static int LinearSearchSentinel(int[]? array, int target)
+    {
+        if (array == null || array.Length == 0)
+            return -1;
+        int last = array[array.Length - 1];
+        int i = 0;
+
+        while (array[i] != target)
+            i++;
+
+        array[array.Length - 1] = target;
+
+        if (i < array.Length - i)
+            return i;
+
+        return (last == target) ? array.Length - 1 : -1;
+    }
+
+    public static int linearSearchSentinel(int[]? array, int target) => LinearSearchSentinel(array, target);
+
+    public static int BinarySearchIter(int[]? a, int target)
+    {
+        if (a == null || a.Length == 0)
+            return -1;
+        int lo = 0, hi = a.Length - 1;
+        while (lo <= hi)
+        {
+            int mid = lo + ((hi - lo) >>> 1);
+            if (a[mid] == target)
+                return mid;
+            if (a[mid] < target)
+                lo = mid + 1;
+            else
+                hi = mid - 1;
+        }
+        return -1;
+    }
+
+    public static int binarySearchIter(int[]? a, int target) => BinarySearchIter(a, target);
+
+    public static int BinarySearchRec(int[]? a, int target)
+    {
+        if (a == null || a.Length == 0)
+            return -1;
+        return Bs(a, target, 0, a.Length - 1);
+    }
+
+    public static int binarySearchRec(int[]? a, int target) => BinarySearchRec(a, target);
+
+    private static int Bs(int[] a, int t, int lo, int hi)
+    {
+        if (lo > hi)
+            return -1;
+        int mid = lo + ((hi - lo) >>> 1);
+        if (a[mid] == t)
+            return mid;
+        if (a[mid] < t)
+            return Bs(a, t, mid + 1, hi);
+        return Bs(a, t, lo, mid - 1);
+    }
+
+    public static int LowerBound(int[]? a, int target)
+    {
+        if (a == null) return 0;
+        int lo = 0, hi = a.Length;
+        while (lo < hi)
+        {
+            int mid = lo + ((hi - lo) >>> 1);
+            if (a[mid] < target)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        return lo;
+    }
+
+    public static int lowerBound(int[]? a, int target) => LowerBound(a, target);
+
+    public static int LastIndexOfSorted(int[]? a, int target)
+    {
+        if (a == null) return -1;
+        int lo = 0, hi = a.Length;
+        while (lo < hi)
+        {
+            int mid = lo + ((hi - lo) >>> 1);
+            if (a[mid] <= target)
+                lo = mid + 1;
+            else
+                hi = mid;
+        }
+        int idx = lo - 1;
+        return (idx >= 0 && a[idx] == target) ? idx : -1;
+    }
+
+    public static int lastIndexOfSorted(int[]? a, int target) => LastIndexOfSorted(a, target);
+
+    public static int BinarySearch<T>(T[]? a, T target, IComparer<T> cmp)
+    {
+        if (a == null || a.Length == 0)
+            return -1;
+        int lo = 0, hi = a.Length - 1;
+        while (lo <= hi)
+        {
+            int mid = lo + ((hi - lo) >>> 1);
+            int c = cmp.Compare(a[mid], target);
+            if (c == 0)
+                return mid;
+            if (c < 0)
+                lo = mid + 1;
+            else
+                hi = mid - 1;
+        }
+        return -1;
+    }
+
+    public static int BinarySearch<T>(T[]? a, T target, Comparison<T> cmp)
+    {
+        return BinarySearch(a, target, Comparer<T>.Create(cmp));
+    }
+
+    public static int binarySearch<T>(T[]? a, T target, IComparer<T> cmp) => BinarySearch(a, target, cmp);
+    public static int binarySearch<T>(T[]? a, T target, Comparison<T> cmp) => BinarySearch(a, target, cmp);
+
+    public static bool Contains(int[]? a, int t)
+    {
+        if (a == null || a.Length < 0)
+        {
+            return false;
+        }
+        int i = LinearSearch(a, t);
+        if (i > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public static bool contains(int[]? a, int t) => Contains(a, t);
+
+    public static int CountOcurrences(int[]? a, int t)
+    {
+        if (a == null || a.Length < 0)
+        {
+            return -1;
+        }
+        int count = 0;
+        foreach (int i in a)
+        {
+            if (i == t)
+                count++;
+        }
+        return count;
+    }
+
+    public static int countOcurrences(int[]? a, int t) => CountOcurrences(a, t);
+
+    public static int[] DeletePrimaryOccurrence(int[]? a, int t)
+    {
+        if (a == null || a.Length < 0)
+        {
+            return Array.Empty<int>();
+        }
+        int index = -1;
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (a[i] == t)
+            {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1)
+        {
+            int[] copia = new int[a.Length];
+            Array.Copy(a, 0, copia, 0, a.Length);
+            return copia;
+        }
+        int[] copiaNueva = new int[a.Length - 1];
+        Array.Copy(a, 0, copiaNueva, 0, index);
+        Array.Copy(a, index + 1, copiaNueva, index, a.Length - index - 1);
+        return copiaNueva;
+    }
+
+    public static int[] deletePrimaryOccurrence(int[]? a, int t) => DeletePrimaryOccurrence(a, t);
+
+    public static int ArgMin(int[]? a)
+    {
+        if (a == null || a.Length < 0)
+        {
+            return -1;
+        }
+        int minInd = a[0];
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (a[i] < a[minInd])
+            {
+                minInd = i;
+            }
+        }
+        return minInd;
+    }
+
+    public static int argMin(int[]? a) => ArgMin(a);
+
+    public static int BinarySearchOrInsertionPoint(int[]? sorted, int t)
+    {
+        if (sorted == null || sorted.Length == 0)
+            return -1;
+        int lo = 0, hi = sorted.Length - 1;
+        while (lo <= hi)
+        {
+            int mid = lo + ((hi - lo) >>> 1);
+            if (sorted[mid] == t)
+                return mid;
+            if (sorted[mid] < t)
+                lo = mid + 1;
+            else
+                hi = mid - 1;
+        }
+        int puntoInsercion = lo;
+        return puntoInsercion + 1;
+    }
+
+    public static int binarySearchOrInsertionPoint(int[]? sorted, int t) => BinarySearchOrInsertionPoint(sorted, t);
+
+    public static int FirstIndexOfSorted(int[]? a, int t)
+    {
+        if (a == null || a.Length < 0)
+        {
+            return -1;
+        }
+        int lb = LowerBound(a, t);
+        if (lb < a.Length && a[lb] == t)
+        {
+            return lb;
+        }
+        return -1;
+    }
+
+    public static int firstIndexOfSorted(int[]? a, int t) => FirstIndexOfSorted(a, t);
+}
