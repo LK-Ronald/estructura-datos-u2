@@ -51,4 +51,20 @@ public class MatrixSearches {
         }
         return new int[] { -1, -1 };
     }
+
+    public static int count(int[][] a, int t) {
+        if (a == null || a.length < 0) {
+            return -1;
+        }
+        int count = 0;
+        for (int x = 0; x < a.length; x++) {
+            for (int y = 0; y < a[x].length; y++) {
+                if (a[y][x] == t) {
+                    count += 1;
+                }
+            }
+        }
+        return count;
+    }
+
 }

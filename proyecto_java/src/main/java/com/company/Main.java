@@ -45,5 +45,11 @@ public class Main {
         System.out.println("Insert number or return index if exist the number of the array -> "
                 + ArraySearches.binarySearchOrInsertionPoint(occurrences, 16));
 
+        int[][] matrix = {
+                { 1, 2, 4 },
+                { 7, 4, 3 },
+                { 8, 6, 0 }
+        };
+        System.out.println("Count number it repeat the number 5 -> " + MatrixSearches.count(matrix, 4));
     }
 }
