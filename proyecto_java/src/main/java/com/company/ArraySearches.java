@@ -193,4 +193,17 @@ public class ArraySearches {
         System.arraycopy(a, index + 1, copia, index, a.length - index - 1);
         return copia;
     }
+
+    public static int argMin(int[] a) {
+        if (a == null || a.length < 0) {
+            return -1;
+        }
+        int minInd = a[0];
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] < a[minInd]) {
+                minInd = i;
+            }
+        }
+        return minInd;
+    }
 }

@@ -35,9 +35,12 @@ public class Main {
 
         System.out.println("Count ocurrences 2 -> " + ArraySearches.countOcurrences(n, 2));
 
-        int[] occurrences = new int[] { 1, 2, 5, 3, 4, 5 };
+        int[] occurrences = new int[] { 5, 2, 5, 3, 4, 5, 1 };
         System.out
-                .println("Delete occurrences of number 5 -> " + Arrays.toString(ArraySearches.deletePrimaryOccurrence(occurrences, 5)));
+                .println("Delete occurrences of number 5 -> "
+                        + Arrays.toString(ArraySearches.deletePrimaryOccurrence(occurrences, 5)));
+
+        System.out.println("Show the index of the number minor of the array -> " + ArraySearches.argMin(occurrences));
 
     }
 }
