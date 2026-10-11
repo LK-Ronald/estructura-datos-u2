@@ -1,6 +1,5 @@
 package com.company;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
 public class ArraySearches {
@@ -225,4 +224,15 @@ public class ArraySearches {
         return puntoInsercion + 1;
     }
 
+    public static int firstIndexOfSorted(int[] a, int t) {
+        if (a == null || a.length < 0) {
+            return -1;
+        }
+        int lb = lowerBound(a, t);
+        if (lb < a.length && a[lb] == t) {
+            return lb;
+        }
+        return -1;
+    }
+    
 }
