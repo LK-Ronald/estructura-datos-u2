@@ -1,57 +1,93 @@
-import 'package:args/args.dart';
+import 'package:proyecto_dart/contacto.dart';
+import 'package:proyecto_dart/contactos_searches.dart';
 
-const String version = '0.0.1';
+void main() {
+  // Main program (from Main.java)
+  List<Contacto> directorioTelefonico = [
+    Contacto("Ronald david", "3043232043", "ronald@gmail.com"),
+    Contacto("Jose perez", "3012345678", "jose@gmail.com"),
+    Contacto("Camilo andres", "3212322232", "camilo@gmail.com"),
+    Contacto("Andres cortina", "3211132323", "Andres@gmail.com"),
+    Contacto("Stiven puello", "3052220045", "stiven@gmail.com"),
+  ];
 
-ArgParser buildParser() {
-  return ArgParser()
-    ..addFlag(
-      'help',
-      abbr: 'h',
-      negatable: false,
-      help: 'Print this usage information.',
-    )
-    ..addFlag(
-      'verbose',
-      abbr: 'v',
-      negatable: false,
-      help: 'Show additional command output.',
-    )
-    ..addFlag('version', negatable: false, help: 'Print the tool version.');
-}
+  print("=== PRUEBAS ContactosSearches ===\n");
 
-void printUsage(ArgParser argParser) {
-  print('Usage: dart proyecto_dart.dart <flags> [arguments]');
-  print(argParser.usage);
-}
+  print("--- busquedaLinealTelefono:");
+  Contacto? encontrado = ContactosSearches.busquedaLinealTelefono(
+    directorioTelefonico,
+    "3012345678",
+  );
+  print("   Buscar 3012345678: ${encontrado ?? "NO ENCONTRADO"}");
 
-void main(List<String> arguments) {
-  final ArgParser argParser = buildParser();
-  try {
-    final ArgResults results = argParser.parse(arguments);
-    bool verbose = false;
+  Contacto? noEncontrado = ContactosSearches.busquedaLinealTelefono(
+    directorioTelefonico,
+    "3042109342",
+  );
+  print("   Buscar 3042109342: ${noEncontrado ?? "NO ENCONTRADO"}");
 
-    // Process the parsed arguments.
-    if (results.flag('help')) {
-      printUsage(argParser);
-      return;
-    }
-    if (results.flag('version')) {
-      print('proyecto_dart version: $version');
-      return;
-    }
-    if (results.flag('verbose')) {
-      verbose = true;
-    }
+  Contacto? vacio = ContactosSearches.busquedaLinealTelefono(
+    directorioTelefonico,
+    "",
+  );
+  print("   Buscar vacio: ${vacio ?? "NO ENCONTRADO"}");
 
-    // Act on the arguments provided.
-    print('Positional arguments: ${results.rest}');
-    if (verbose) {
-      print('[VERBOSE] All arguments: ${results.arguments}');
-    }
-  } on FormatException catch (e) {
-    // Print usage information if an invalid argument was provided.
-    print(e.message);
-    print('');
-    printUsage(argParser);
+  print("==========================");
+  print("--- busquedaPartialNombre:");
+  List<Contacto> resultados = ContactosSearches.busquedaPartialNombre(
+    directorioTelefonico,
+    "andres",
+  );
+  print("   Buscar 'andres': ");
+  for (var c in resultados) {
+    print("     - $c");
   }
+
+  List<Contacto> resultados2 = ContactosSearches.busquedaPartialNombre(
+    directorioTelefonico,
+    "perez",
+  );
+  print("   Buscar 'perez': ");
+  for (var c in resultados2) {
+    print("     - $c");
+  }
+
+  print("=========================");
+  print("BinarySearchByPhone:");
+  ContactosSearches searches = ContactosSearches();
+  Contacto? binEncontrado = searches.binarySearchByPhone(
+    directorioTelefonico,
+    "3211132323",
+  );
+  print("Buscar 3211132323: ${binEncontrado ?? "NO ENCONTRADO"}");
+
+  Contacto? binNoEncontrado = searches.binarySearchByPhone(
+    directorioTelefonico,
+    "9999999999",
+  );
+  print("   Buscar 9999999999: ${binNoEncontrado ?? "NO ENCONTRADO"}");
+
+  print("=========================");
+  print("BinarySearchOrInsertionPoint: ");
+  Contacto nuevo = Contacto("Jean perez", "3100000000", "nuevo@test.com");
+  int idx = ContactosSearches.binarySearchOrInsertionPoint(
+    directorioTelefonico,
+    nuevo,
+  );
+  print("   Punto de insercion para 3100000000: $idx");
+
+  print("\n=== CASOS EDGE ===");
+  List<Contacto> vacioArray = [];
+  print(
+    "Array vacio - busquedaLinealTelefono: ${ContactosSearches.busquedaLinealTelefono(vacioArray, "123") != null}",
+  );
+  print(
+    "Array vacio - busquedaPartialNombre: ${ContactosSearches.busquedaPartialNombre(vacioArray, "a").length}",
+  );
+  print(
+    "Array vacio - binarySearchByPhone: ${searches.binarySearchByPhone(vacioArray, "123") != null}",
+  );
+  print(
+    "Array vacio - binarySearchOrInsertionPoint: ${ContactosSearches.binarySearchOrInsertionPoint(vacioArray, nuevo)}",
+  );
 }
